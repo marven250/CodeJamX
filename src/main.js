@@ -1,24 +1,30 @@
 import './style.css'
-import javascriptLogo from './javascript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.js'
+import {getHighLowTemp, getHumidity, getApiResponse, getCityName, getCurrentTemperature, getForecast, getWeatherCondition, getWeatherIcon, getWindSpeed} from './apiwrapper.js';
 
-document.querySelector('#app').innerHTML = `
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-      <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-    </a>
-    <h1>Hello Vite!</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite logo to learn more
-    </p>
-  </div>
-`
+let data;
 
-setupCounter(document.querySelector('#counter'))
+document.getElementById('searchButton').addEventListener('click', async function() {
+    let input = document.getElementById('input').value;
+    let data = await getApiResponse(input);
+    let imgSrc = getWeatherIcon(data);
+    let cityName = getCityName(data);
+    let currTemp = getCurrentTemperature(data);
+    let tempRange = getHighLowTemp(data);
+    let lowTemp = tempRange[0];
+    let highTemp = tempRange[1];
+    let weatherCondition = getWeatherCondition(data);
+    let windSpeed = getWindSpeed(data);
+    document.getElementById("temp").innerText = `${currTemp}°`;
+    document.getElementById("location").innerText = cityName;
+    document.getElementById("condition").innerText = weatherCondition;
+    document.getElementById("icon").setAttribute("src", imgSrc);
+    document.getElementById("hl").innerText = `H:${highTemp}° L:${lowTemp}°`;
+    console.log(data);
+    console.log(input);
+    //let data = await getApiResponse()
+    const mainCard = document.getElementById('mainCard');
+    mainCard.classList.remove('hidden'); // Show the result card
+});
+
+
+

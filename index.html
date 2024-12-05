@@ -4,9 +4,25 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
+    <title>Real WeatherJam</title>
   </head>
   <body>
+    <div class="navbar">
+      <div class="title">Real WeatherJam</div>
+      <div class="search">
+          <input type="text" id="input" placeholder="Search for your city" />
+          <button id="searchButton">Search</button>
+      </div>
+    </div>
+
+    <div id="mainCard" class="card hidden"> <!-- center top middle make transparent-->
+      <img id="icon"></img>
+      <div id="temp"></div>  <!--omega big #1-->
+      <div id="location"></div> <!--semi big #2-->
+      <div id="condition"></div> <!-- smaller than normal-->
+      <div id="hl"></div> <!-- smaller than normal-->
+    </div>
+
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
   </body>
