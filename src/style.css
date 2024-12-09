@@ -31,10 +31,17 @@
   padding: 10px 0; /* Optional: space around the container */
 }
 
+.title {
+  font-size: 3rem; /* Adjust size as needed */
+  font-weight: bold; /* Optional for emphasis */
+}
+
+
 .card {
   width: 15rem; /* Fixed width for cards */
   margin-right: 10px; /* Space between the cards */
   flex-shrink: 0; /* Prevent cards from shrinking */
+  background-color:transparent;
 }
 
 .card img {
