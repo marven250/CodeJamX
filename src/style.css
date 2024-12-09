@@ -17,22 +17,14 @@
   cursor: pointer;
 }
 
-.recent-searches li:hover {
-  background-color: #f0f0f0;
-}
+.recent-searches li:hover { background-color: #f0f0f0; }
 
-.search {
-  position: relative; /* To position the dropdown correctly */
-}
+/* To position the dropdown correctly */
+.search { position: relative; }
 
-.main-weather-icon {
-  width: 50%;
-  
-}
+.main-weather-icon { width: 50%; }
 
-.hidden {
-  display: none;
-}
+.hidden { display: none; }
 
 .center-text {
   text-align: center;
@@ -40,21 +32,13 @@
   overflow: visible; /* Ensures no clipping of text */
 }
 
-.forecast-container-c {
-  overflow-x: scroll;
-}
+.forecast-container-c { overflow-x: scroll; }
 
-.forecast-container-c::-webkit-scrollbar {
-  display: none;
-}
+.forecast-container-c::-webkit-scrollbar { display: none; }
 
-.current-day-container {
-  width: 25%;
-}
+.current-day-container { width: 25%; }
 
-.forecast-card {
-  width: 8rem !important;
-}
+.forecast-card { width: 8rem !important; }
 
 #forecast-container {
   display: flex;
@@ -68,7 +52,6 @@
   font-size: 3rem; /* Adjust size as needed */
   font-weight: bold; /* Optional for emphasis */
 }
-
 
 .card {
   width: 15rem; /* Fixed width for cards */

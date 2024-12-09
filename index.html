@@ -10,16 +10,24 @@
     <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
   </head>
+
   <body>
     <nav class="navbar">
-      <div class="title kanit-light">Real WeatherJam</div>
+      <div class="title kanit-light">Real WeatherJam</div> <!-- Maybe be more original with your app name next time? -->
       <div class="search">
         <input type="text" id="input" placeholder="Search for your city" />
+        <!-- LOGAN - I would add an event listener to allow users to hit the enter key to submit a search query rather than just clicking the button -->
+        <!-- LOGAN - I would also add a border-radius to your searchbar, search button, and search history container to be consistent with the rest of your containers -->
+        <!-- LOGAN - Also, I feel like the most recent search should be at the top of the history and cascade down -->
+        <!-- LOGAN - Perhaps add error checking to search queries that don't return results -->
+        <!-- LOGAN - On refresh, your search history container appears, so I would fix this -->
         <button class="kanit-light" id="searchButton">Search</button>
-        <!-- Custom dropdown for recent searches -->
         <ul id="recentSearchList" class="recent-searches"></ul>
       </div>
     </nav>
+
+    <!-- LOGAN - The gradient idea is super cool, but perhaps I would have added some backgrounds to your container info so it's easier to read -->
+    <!-- LOGAN - Improvements could surely be made to the responsiveness -->
     <div id="cur-day-forecast" class="container current-day-container hidden kanit-light">
       <div class="row">
         <div class="card kanit-light">
@@ -32,25 +40,22 @@
             <h3 class="card-text d-flex justify-content-center center-text" id="location"></h3>
             <h4 class="card-text d-flex justify-content-center center-text" id="condition"></h4>
             <p class="card-text d-flex justify-content-center" id="hl"></p>
-            <div class="card-text d-flex justify-content-center" id="humidityWS">
-              
-            </div>
-            
+            <div class="card-text d-flex justify-content-center" id="humidityWS"></div>
           </div>
         </div>
       </div>
     </div>
-    <div id="forecast-container" class="container forecast-container-c d-flex-start">
 
-    </div>
-    <div id="fd-container-id" class="container">
+    <!-- LOGAN - I would make the width of your hourly forecast be the same width as the weekly forecast row containers -->
+    <div id="forecast-container" class="container forecast-container-c d-flex-start"></div>
 
-    </div>
+    <!-- LOGAN - I would add some more information in your weekly forecast cards to improve spacing  -->
+    <div id="fd-container-id" class="container"></div>
     
-
-
+    <!-- LOGAN - I would add some padding/margin to the bottom of your body so that the last piece of content isn't flush with the bottom of the screen -->
     <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
-    <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   </body>
+
+  <script type="module" src="/src/main.js"></script>
+  <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </html>
