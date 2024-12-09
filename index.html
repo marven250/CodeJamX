@@ -13,23 +13,29 @@
   <body>
     <nav class="navbar">
       <div class="title kanit-light">Real WeatherJam</div>
-        <div class="search">
-            <input type="text" id="input" placeholder="Search for your city" />
-            <button class="kanit-light" id="searchButton">Search</button>
-        </div>
+      <div class="search">
+        <input type="text" id="input" placeholder="Search for your city" />
+        <button class="kanit-light" id="searchButton">Search</button>
+        <!-- Custom dropdown for recent searches -->
+        <ul id="recentSearchList" class="recent-searches"></ul>
+      </div>
     </nav>
-    <div id="cur-day-forecast" class="container current-day-container hidden">
+    <div id="cur-day-forecast" class="container current-day-container hidden kanit-light">
       <div class="row">
-        <div class="card">
+        <div class="card kanit-light">
           <div class="d-flex justify-content-center">
             <img class="card-img-top main-weather-icon" id="icon" src="" alt="Weather Icon">
           </div>
           
-          <div class="card-body">
+          <div class="card-body kanit-light">
             <h2 class="card-title d-flex justify-content-center" id="temp"></h2>
-            <h3 class="card-text d-flex justify-content-center" id="location"></h3>
-            <h4 class="card-text d-flex justify-content-center" id="condition"></h4>
+            <h3 class="card-text d-flex justify-content-center center-text" id="location"></h3>
+            <h4 class="card-text d-flex justify-content-center center-text" id="condition"></h4>
             <p class="card-text d-flex justify-content-center" id="hl"></p>
+            <div class="card-text d-flex justify-content-center" id="humidityWS">
+              
+            </div>
+            
           </div>
         </div>
       </div>
@@ -40,7 +46,8 @@
     <div id="fd-container-id" class="container">
 
     </div>
-      
+    
+
 
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>

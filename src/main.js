@@ -40,6 +40,7 @@ function createFiveDayForecastCard(fiveDayForecastMp) {
 
 function createForecastCard(forecastMp, currTime) {
   const weatherContainer = document.getElementById('forecast-container');
+  weatherContainer.innerHTML = '';
   // Dynamically generate cards
   for (let i = currTime; i < 24; i++) {
       let legitTime = formatTimeToAmPm(forecastMp[i][0]);
@@ -93,44 +94,122 @@ function isDaytime(time) {
   }
 }
 
-
+const recentSearches = new Set();
 document.getElementById('searchButton').addEventListener('click', async function() {
-    let input = document.getElementById('input').value;
-    let data = await getApiResponse(input);
-    console.log(data);
-    let imgSrc = getWeatherIcon(data);
-    console.log(imgSrc);
-    let cityName = getCityName(data);
-    let currTemp = getCurrentTemperature(data);
-    let tempRange = getHighLowTemp(data);
-    let lowTemp = tempRange[0];
-    let highTemp = tempRange[1];
-    let weatherCondition = getWeatherCondition(data);
-    let windSpeed = getWindSpeed(data);
-    let humidity = getHumidity(data);
-    let forecastMp = getForecast(data);
-    let fdForecastMp = getFiveDayForecast(data);
+    let input = document.getElementById('input');
+    const city = input.value.trim();
+    await performSearch(city);
     
-    //console.log(getLocalTime(data));
-    let localTime = Math.floor(formatTimeToAmPm(getLocalTime(data))[1]);
-    //console.log(localTime);
-    let daytime = isDaytime(getLocalTime(data));
-    createForecastCard(forecastMp, localTime);
-    document.getElementById("temp").innerText = `${currTemp}°`;
-    document.getElementById("location").innerText = cityName;
-    document.getElementById("condition").innerText = weatherCondition;
-    document.getElementById("icon").setAttribute("src", imgSrc);
-    document.getElementById("hl").innerText = `H:${highTemp}° L:${lowTemp}°`;
-    const mainContainer = document.getElementById('cur-day-forecast');
-    mainContainer.classList.remove('hidden');
-
-    createFiveDayForecastCard(fdForecastMp);
-    
-    //let data = await getApiResponse()
-    
-    // // Apply the gradient to the body
-    document.body.style.background = getBackgroundGradient(currTemp, daytime);
 });
 
+async function performSearch(city) {
+  if (city && !recentSearches.has(city)) {
+    // Add the city to the set and update the UI
+    recentSearches.add(city);
+    updateRecentSearches();
+  }
+  let data = await getApiResponse(city);
+  console.log(data);
+  let imgSrc = getWeatherIcon(data);
+  console.log(imgSrc);
+  let cityName = getCityName(data);
+  let currTemp = getCurrentTemperature(data);
+  let tempRange = getHighLowTemp(data);
+  let lowTemp = tempRange[0];
+  let highTemp = tempRange[1];
+  let weatherCondition = getWeatherCondition(data);
+  let windSpeed = getWindSpeed(data);
+  let humidity = getHumidity(data);
+  let forecastMp = getForecast(data);
+  let fdForecastMp = getFiveDayForecast(data);
+  
+  //console.log(getLocalTime(data));
+  let localTime = Math.floor(formatTimeToAmPm(getLocalTime(data))[1]);
+  //console.log(localTime);
+  let daytime = isDaytime(getLocalTime(data));
+  createForecastCard(forecastMp, localTime);
+  document.getElementById("temp").innerText = `${currTemp}°`;
+  document.getElementById("location").innerText = cityName;
+  document.getElementById("condition").innerText = weatherCondition;
+  document.getElementById("icon").setAttribute("src", imgSrc);
+  document.getElementById("hl").innerText = `H:${highTemp}° L:${lowTemp}°`;
+  document.getElementById("humidityWS").innerText = `🌡:${humidity}%  🌀:${windSpeed} mph`;
+  //document.getElementById("windSpeed").innerText = `Wind Speed:${windSpeed} mph`;
+  const mainContainer = document.getElementById('cur-day-forecast');
+  mainContainer.classList.remove('hidden');
+
+  createFiveDayForecastCard(fdForecastMp);
+  
+  //let data = await getApiResponse()
+  
+  // // Apply the gradient to the body
+  document.body.style.background = getBackgroundGradient(currTemp, daytime);
+  input.value = '';
+}
+
+document.getElementById('recentSearchList').addEventListener('click', function (e) {
+  if (e.target && e.target.tagName === 'LI') {
+    const city = e.target.textContent;
+    document.getElementById('input').value = city;
+    document.getElementById('searchButton').click(); // Trigger the search
+  }
+});
+
+// Function to update the recent searches list in the dropdown
+function updateRecentSearches() {
+  const recentSearchList = document.getElementById('recentSearchList');
+  recentSearchList.innerHTML = ''; // Clear the list
+
+  // Populate the list with recent searches
+  recentSearches.forEach(city => {
+    const listItem = document.createElement('li');
+    listItem.textContent = city;
+    recentSearchList.appendChild(listItem);
+  });
+
+  // Show the dropdown if there are recent searches
+  if (recentSearches.size > 0) {
+    recentSearchList.style.display = 'block';
+  } else {
+    recentSearchList.style.display = 'none';
+  }
+}
+
+// Close the dropdown when the user clicks outside
+document.addEventListener('click', function (e) {
+  const recentSearchList = document.getElementById('recentSearchList');
+  if (!recentSearchList.contains(e.target) && e.target !== document.getElementById('input')) {
+    recentSearchList.style.display = 'none';
+  }
+});
+
+// Optional: Store recent searches in localStorage to persist after page reloads
+function loadRecentSearchesFromLocalStorage() {
+  const savedSearches = localStorage.getItem('recentSearches');
+  if (savedSearches) {
+    const savedSet = new Set(JSON.parse(savedSearches));
+    savedSet.forEach(city => recentSearches.add(city));
+    updateRecentSearches();
+  }
+}
+
+window.addEventListener('load', loadRecentSearchesFromLocalStorage);
+
+// Optional: Save recent searches to localStorage whenever updated
+function saveRecentSearchesToLocalStorage() {
+  localStorage.setItem('recentSearches', JSON.stringify([...recentSearches]));
+}
+
+window.onload = async function () {
+  const defaultCity = "Deerfield Beach"; // Set your default city here
+  await performSearch(defaultCity); // Trigger the search for the default city
+};
+
+document.getElementById('input').addEventListener('click', function () {
+  updateRecentSearches();  // Update and display the list when clicked
+});
+
+// Trigger saving recent searches to localStorage
+window.addEventListener('beforeunload', saveRecentSearchesToLocalStorage);
 
 
