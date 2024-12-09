@@ -7,57 +7,43 @@
     <title>Real WeatherJam</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
   </head>
   <body>
-    
-      <div class="navbar">
-        <div class="title kanit-light">Real WeatherJam</div>
+    <nav class="navbar">
+      <div class="title kanit-light">Real WeatherJam</div>
         <div class="search">
             <input type="text" id="input" placeholder="Search for your city" />
             <button class="kanit-light" id="searchButton">Search</button>
         </div>
-      </div>
-      
-      <div id="mainContainer" class="fullscreen-container hidden">
-        <div class="row kanit-light">
-          <div class="center">
-            <div id="mainCard" class=" "> <!-- center top middle make transparent-->
-              <img id="icon" class="card-img-top mx-auto"></img>
-              
-              <div id="temp" class="display-4"></div>  <!-- omega big #1 -->
-              <div id="location" class="h4 mb-2"></div> <!-- semi big #2 -->
-              <div id="condition" class="text-muted small"></div> <!-- smaller than normal -->
-              <div id="hl" class="text-muted small"></div> <!-- smaller than normal -->
-            </div>
-          </div>
-        </div>
-
-        <br>
-      
-        <!-- Second Row -->
-        <div class="row mt-4 kanit-light">
-          <div class="big-container">
-            <div id="forecastCard" class="big-container">
-              <div id="weatherContainer" class="forecast-container">
-                <!-- Cards will be appended here dynamically -->
-              </div>
-            </div>
+    </nav>
+    <div id="cur-day-forecast" class="container current-day-container hidden">
+      <div class="row">
+        <div class="card">
+          <div class="d-flex justify-content-center">
+            <img class="card-img-top main-weather-icon" id="icon" src="" alt="Weather Icon">
           </div>
           
-        </div>
-
-        <div class="row">
-          <div id="fd-container-id" class="fd-container">
-              
+          <div class="card-body">
+            <h2 class="card-title d-flex justify-content-center" id="temp"></h2>
+            <h3 class="card-text d-flex justify-content-center" id="location"></h3>
+            <h4 class="card-text d-flex justify-content-center" id="condition"></h4>
+            <p class="card-text d-flex justify-content-center" id="hl"></p>
           </div>
-
         </div>
-        
       </div>
+    </div>
+    <div id="forecast-container" class="container forecast-container-c d-flex-start">
+
+    </div>
+    <div id="fd-container-id" class="container">
+
+    </div>
       
 
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

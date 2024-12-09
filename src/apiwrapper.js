@@ -72,7 +72,7 @@ function getFiveDayForecast(response) {
     let forecastDay = response.forecast.forecastday;
     for (let i = 0; i < 5; i++) {
         const date = new Date(`${forecastDay[i].date}T12:00:00`); // Noon to avoid timezone shift
-        const dayOfWeek = format(date, 'EEEE');
+        const dayOfWeek = format(date, 'EEE');
         mp[i] = [dayOfWeek, forecastDay[i].day.mintemp_f, forecastDay[i].day.maxtemp_f, forecastDay[i].day.condition.icon];
     }
     return mp;

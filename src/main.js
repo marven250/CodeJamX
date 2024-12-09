@@ -14,31 +14,49 @@ function formatTimeToAmPm(time) {
 }
 
 function createFiveDayForecastCard(fiveDayForecastMp) {
-    //const fdContainer = document.getElementById('fd-container-id');
-    console.log(fiveDayForecastMp);
+    const fdContainer = document.getElementById('fd-container-id');
+    fdContainer.innerHTML = ''; // Clear previous content if needed
+
+    for (const day in fiveDayForecastMp) {
+        // Create a single row for each forecast
+        const row = document.createElement('div');
+        row.className = 'row fd-row'; // Custom CSS class for layout
+
+        // Set up row content
+        row.innerHTML = `
+            <div class="col">${fiveDayForecastMp[day][0]}</div>
+            <div class="col">
+                <img src="${fiveDayForecastMp[day][3]}" alt="Weather icon" style="max-width: 50px;">
+            </div>
+            <div class="col">Low: ${fiveDayForecastMp[day][1]}°</div>
+            <div class="col">High: ${fiveDayForecastMp[day][2]}°</div>
+        `;
+
+        // Append the row to the container
+        fdContainer.appendChild(row);
+    }
 }
 
-function createForecastCard(forecastMp, currTime) {
-    const weatherContainer = document.getElementById('weatherContainer');
-    // Dynamically generate cards
-    for (let i = currTime; i < 24; i++) {
-        let legitTime = formatTimeToAmPm(forecastMp[i][0]);
-        const card = document.createElement('div');
-        card.className = 'card weather-card p-2';
 
-        card.innerHTML = `
-            <div class="card forecast-card" ">
-                <div class="card-body">
-                <h5 class="card-title text-center">${legitTime[0]}</h5>
-                <div class="weather-icon text-center">
-                    <img src="${forecastMp[i][2]}" class="img-fluid" alt="Weather Icon">
-                </div>
-                <p class="card-text text-center">${forecastMp[i][1]}°</p>
-                </div>
-            </div>
-            `;
-        weatherContainer.appendChild(card);
-    }
+function createForecastCard(forecastMp, currTime) {
+  const weatherContainer = document.getElementById('forecast-container');
+  // Dynamically generate cards
+  for (let i = currTime; i < 24; i++) {
+      let legitTime = formatTimeToAmPm(forecastMp[i][0]);
+      const card = document.createElement('div');
+      card.innerHTML = `
+          <div class="card forecast-card">
+              <div class="card-body">
+                  <h5 class="card-title text-center">${legitTime[0]}</h5>
+                  <div class="weather-icon text-center">
+                      <img src="${forecastMp[i][2]}" class="img-fluid" alt="Weather Icon">
+                  </div>
+                  <p class="card-text text-center">${forecastMp[i][1]}°</p>
+              </div>
+          </div>
+      `;
+      weatherContainer.appendChild(card);
+  }
 }
 
 // Function to determine if it's day or night
@@ -81,6 +99,7 @@ document.getElementById('searchButton').addEventListener('click', async function
     let data = await getApiResponse(input);
     console.log(data);
     let imgSrc = getWeatherIcon(data);
+    console.log(imgSrc);
     let cityName = getCityName(data);
     let currTemp = getCurrentTemperature(data);
     let tempRange = getHighLowTemp(data);
@@ -88,25 +107,28 @@ document.getElementById('searchButton').addEventListener('click', async function
     let highTemp = tempRange[1];
     let weatherCondition = getWeatherCondition(data);
     let windSpeed = getWindSpeed(data);
+    let humidity = getHumidity(data);
     let forecastMp = getForecast(data);
     let fdForecastMp = getFiveDayForecast(data);
-    createFiveDayForecastCard(fdForecastMp);
+    
     //console.log(getLocalTime(data));
     let localTime = Math.floor(formatTimeToAmPm(getLocalTime(data))[1]);
     //console.log(localTime);
     let daytime = isDaytime(getLocalTime(data));
-    console.log(daytime);
     createForecastCard(forecastMp, localTime);
     document.getElementById("temp").innerText = `${currTemp}°`;
     document.getElementById("location").innerText = cityName;
     document.getElementById("condition").innerText = weatherCondition;
     document.getElementById("icon").setAttribute("src", imgSrc);
     document.getElementById("hl").innerText = `H:${highTemp}° L:${lowTemp}°`;
+    const mainContainer = document.getElementById('cur-day-forecast');
+    mainContainer.classList.remove('hidden');
+
+    createFiveDayForecastCard(fdForecastMp);
     
     //let data = await getApiResponse()
-    const mainContainer = document.getElementById('mainContainer');
-    mainContainer.classList.remove('hidden');
-    // Apply the gradient to the body
+    
+    // // Apply the gradient to the body
     document.body.style.background = getBackgroundGradient(currTemp, daytime);
 });
 
