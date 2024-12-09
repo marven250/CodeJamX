@@ -1,6 +1,5 @@
 import './style.css'
 import {getFiveDayForecast, getLocalTime, getHighLowTemp, getHumidity, getApiResponse, getCityName, getCurrentTemperature, getForecast, getWeatherCondition, getWeatherIcon, getWindSpeed} from './apiwrapper.js';
-
 let data;
 function formatTimeToAmPm(time) {
     const date = new Date(time); // Convert to Date object
@@ -96,7 +95,7 @@ function isDaytime(time) {
 
 document.getElementById('searchButton').addEventListener('click', async function() {
     let input = document.getElementById('input').value;
-    let data = await getApiResponse(input);
+    let data = await getApiResponse(input); // NEED INPUT VALIDATION
     console.log(data);
     let imgSrc = getWeatherIcon(data);
     console.log(imgSrc);
@@ -106,8 +105,8 @@ document.getElementById('searchButton').addEventListener('click', async function
     let lowTemp = tempRange[0];
     let highTemp = tempRange[1];
     let weatherCondition = getWeatherCondition(data);
-    let windSpeed = getWindSpeed(data);
-    let humidity = getHumidity(data);
+    // let windSpeed = getWindSpeed(data); --- unused, commented out
+    // let humidity = getHumidity(data);
     let forecastMp = getForecast(data);
     let fdForecastMp = getFiveDayForecast(data);
     
@@ -129,7 +128,7 @@ document.getElementById('searchButton').addEventListener('click', async function
     //let data = await getApiResponse()
     
     // // Apply the gradient to the body
-    document.body.style.background = getBackgroundGradient(currTemp, daytime);
+    document.body.style.background = getBackgroundGradient(currTemp, daytime); //I do like the gradient!
 });
 
 
